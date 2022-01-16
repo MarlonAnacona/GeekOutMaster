@@ -13,6 +13,8 @@ public class modelDados
     private Dados cartaJugador = new Dados();
 
     private int estado;
+    private int caraElegida;
+    private int vezSelecionada;
     private String[] estadoToString = new String[2];
     private String paloGanadorToString,jugadorGanador;
     private int[] caras = new int[7];
@@ -33,60 +35,33 @@ public class modelDados
 
     //this method calculates the card with  the highest value
     public void determinarJuego() {
-        if (this.caras[0]>this.caras[1]) {
-            //win player
-            this.estado = 1;
-        }else {
 
-            if (this.caras[0] < this.caras[1]) {
-                //win machine
-                this.estado = 2;
-
-            } else {
-                if(this.caras[0] == this.caras[1]) {
-                    //equality
-                    this.estado=3;
-                    if(this.paloJugador>this.paloMaquina){
-                        paloGanador=paloJugador;
-                        if(paloGanador==4){
-                            paloGanadorToString="Oro";
-                        }
-                        if(paloGanador==3){
-                            paloGanadorToString="Copas";
-                        }
-                        if(paloGanador==2){
-                            paloGanadorToString="Espadas";
-                        }
-                        if(paloGanador==1){
-                            paloGanadorToString="Bastos";
-                        }
-                        jugadorGanador="El usuario";
-                    }else{
-                        if(this.paloJugador<this.paloMaquina){
-                            paloGanador=paloMaquina;
-                            if(paloGanador==4){
-                                paloGanadorToString="Oro";
-                            }
-                            if(paloGanador==3){
-                                paloGanadorToString="Copas";
-                            }
-                            if(paloGanador==2){
-                                paloGanadorToString="Espadas";
-                            }
-                            if(paloGanador==1){
-                                paloGanadorToString="Bastos";
-                            }
-                            jugadorGanador="La maquina";
-                        }
-                    }
-
-                }
-
-            }
-
-        }
     }
 
+    public void movimientos(int cara){
+
+        if(vezSelecionada==1) {
+
+
+            if (cara == 1) {
+                //Meplee, throw the a one crap again
+
+            }
+            if (cara == 3) {
+                //corazon,craps inactivo a activo
+            }
+            if(cara==4){
+                //cohete, pasa un dado activo a inactivo
+            }
+            if(cara==5){
+            //superhero,other face the crap
+            }
+        }else{
+            if(vezSelecionada==0){
+            vezSelecionada=1;
+            }
+        }
+    }
 
 
 

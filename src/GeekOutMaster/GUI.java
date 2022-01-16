@@ -7,8 +7,12 @@ import java.awt.event.ActionListener;
 
 public class GUI extends JFrame {
 
+    private GeekOutMaster.Header headerProject;
+    private JLabel  dado[]=new JLabel[10];
+    private JPanel panelDadosActivos,PanelDadosInactivos,PanelDadosUsados, panelPuntaje
     public GUI(){
-        this.setUndecorated(false);
+        intGUI();
+        this.setUndecorated(true);
         this.setTitle("GEEK OUT MASTER");
         this.pack();
         this.setResizable(true);
@@ -20,10 +24,18 @@ public class GUI extends JFrame {
     }
 
 
-    private  void intGUI(){
+    private  void intGUI() {
         //create listener object or control object
         this.getContentPane().setLayout(new GridBagLayout());
-        GridBagConstraints constraints=new GridBagConstraints();
+        GridBagConstraints constraints = new GridBagConstraints();
+        //set up Jcomponents
+        headerProject= new Header("GEEK OUT MASTER", Color.black);
+        constraints.gridx=0;
+        constraints.gridy=0;
+        constraints.gridwidth=2;
+        constraints.fill=GridBagConstraints.HORIZONTAL;
+        this.add(headerProject,constraints);
+
 
     }
 
@@ -43,6 +55,8 @@ public class GUI extends JFrame {
         /*
         These buttons start the game, giving a card with a random value between 1-12, both for the player and for the machine
          */
+
+        public int contadorDados;
         @Override
         public void actionPerformed(ActionEvent e) {
           /*  if(e.getSource()==sacar){
