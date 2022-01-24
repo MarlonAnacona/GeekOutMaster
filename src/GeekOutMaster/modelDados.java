@@ -2,6 +2,8 @@ package GeekOutMaster;
 
 
 import javax.swing.*;
+import java.sql.Struct;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -10,24 +12,50 @@ import java.util.Random;
 public class modelDados
 {
 
-    private Dados cartaJugador = new Dados();
+
 
     private int estado;
     private int caraElegida;
     private int vezSelecionada;
     private String[] estadoToString = new String[2];
-    private String paloGanadorToString,jugadorGanador;
-    private int[] caras = new int[7];
+    private String[] nombre=new String[10];
+    private int[] caras = new int[10];
     Random aleatorio= new Random();
-
+    private int caraOpuesta;
+    private Dados cartaJugador = new Dados();
     public modelDados() {
     }
 
     //this method to get for user a random card with random value between 1-7 and the type of card
     public void calcularTiroJugador() {
 
-        for (int i=0; i<7;i++){
+        for (int i=0; i<10;i++){
             this.caras[i] = this.cartaJugador.getCara();
+            switch (this.caras[i]){
+                case 1:
+                this.nombre[i]="Meeple";
+
+                break;
+                case 2:
+                    this.nombre[i]="Dragon";
+                    break;
+
+                case 3:
+                    this.nombre[i]="Corazon";
+                    break;
+
+                case 4:
+                    this.nombre[i]="Cohete";
+                        break;
+
+                case 5:
+                    this.nombre[i]="SuperHeroe";
+                        break;
+                case 6:
+                    this.nombre[i]="42";
+                        break;
+            }
+
         }
 
 
@@ -38,29 +66,39 @@ public class modelDados
 
     }
 
-    public void movimientos(int cara){
+    public void movimientos(String cara){
 
-        if(vezSelecionada==1) {
+        switch (cara){
+            case "Meeple":
 
+        JOptionPane.showMessageDialog(null,cara);
 
-            if (cara == 1) {
-                //Meplee, throw the a one crap again
+                break;
+            case "Dragon":
+                JOptionPane.showMessageDialog(null,cara);
 
-            }
-            if (cara == 3) {
-                //corazon,craps inactivo a activo
-            }
-            if(cara==4){
-                //cohete, pasa un dado activo a inactivo
-            }
-            if(cara==5){
-            //superhero,other face the crap
-            }
-        }else{
-            if(vezSelecionada==0){
-            vezSelecionada=1;
-            }
+                break;
+
+            case "Corazon":
+                JOptionPane.showMessageDialog(null,cara);
+
+                break;
+
+            case "Cohete":
+                JOptionPane.showMessageDialog(null,cara);
+
+                break;
+
+            case "SuperHeroe":
+                JOptionPane.showMessageDialog(null,cara);
+
+                break;
+            case "42":
+                JOptionPane.showMessageDialog(null,cara);
+
+                break;
         }
+
     }
 
 
@@ -68,29 +106,21 @@ public class modelDados
 
 
     //this method set text with a winner game
-    public String[] getEstadoToString() {
-        switch(this.estado) {
-            case 1:
-                //win
-                this.estadoToString[0] = "Has ganado!";
+    /*public String[] getEstadoToString() {
 
-                break;
-            case 2:
-                //win
-                this.estadoToString[0] = "Has perdido";
-
-                break;
-            case 3:
-                //
-                this.estadoToString[0] = "Sacaron igual numero, el  palo mayor fue el de: "+ paloGanadorToString+
-                        "\n Por lo tanto el ganador es: "+ jugadorGanador;
-                break;
         }
 
-        return this.estadoToString;
-    }
+
+    }*/
 
     public int[] getCaras() {
+
+
         return this.caras;
+    }
+
+    public String[] getNombres(){
+
+        return this.nombre;
     }
 }

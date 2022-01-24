@@ -6,9 +6,14 @@ public class Dados {
      * This class to get a random value between 1-12 for the game cards
 
      */
-    private int cara;
+    private int cara, caraOpuesta;
+    private String caraString;
 
-    public Dados() {
+    public Dados () {
+        this.cara = cara;
+        this.caraOpuesta= caraOpuesta;
+        this.caraString= caraString;
+
     }
 
     public int getCara() {
@@ -17,4 +22,36 @@ public class Dados {
 
         return this.cara;
     }
+
+    public int getCaraOpuesta(){
+        switch (cara){
+
+            case 1:
+                caraOpuesta= 6;
+                break;
+            case 2:
+                caraOpuesta=5;
+                break;
+            case 3:
+                caraOpuesta= 4;
+                break;
+            case 4:
+                caraOpuesta= 3;
+                break;
+            case 5:
+                caraOpuesta=2;
+
+                break;
+            case 6:
+                caraOpuesta=1;
+                break;
+
+        }
+        return caraOpuesta;
+
+    }
+
+
+
+
 }
