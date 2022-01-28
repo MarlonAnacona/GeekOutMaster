@@ -1,7 +1,5 @@
 package GeekOutMaster;
 
-import com.sun.security.auth.module.JndiLoginModule;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -17,10 +15,11 @@ public class GUI extends JFrame {
     private JButton dado[] = new JButton[10];
 
     private JLabel fondo;
-    private int contadorDados=0;
+    private int contadorDados;
     private List<JButton> listaBotonesActivos= new ArrayList<JButton>();
     private List<JButton> listaBotonesUtilizados= new ArrayList<JButton>();
-
+    private      JButton btn,btn2;
+    String nombre1,nombre2;
     private List<JButton> listaBotonesInactivos= new ArrayList<JButton>();
 
     private JButton ayuda, salir, lanzar;
@@ -31,7 +30,7 @@ public class GUI extends JFrame {
     PanelFondo fondo1= new PanelFondo();
 
     public GUI() {
-
+        contadorDados=0;
         intGUI();
         fondoimagen=new ImageIcon(getClass().getResource("/resources/fondo.jpg"));
         fondo=new JLabel(fondoimagen);
@@ -63,18 +62,26 @@ public class GUI extends JFrame {
 
 
             dado[i] = new JButton("Dado "+i);
-
-dado[i].addActionListener(escucha);
+            dado[i].setBorderPainted(false);
+            dado[i].setContentAreaFilled(false);
+            dado[i].setFocusable(false);
+            ImageIcon imgDadosSalida= new ImageIcon(getClass().getResource("/resources/"+"dadoSalida.png"));
+            dado[i].setIcon(imgDadosSalida);
+            dado[i].addActionListener(escucha);
             listaBotonesActivos.add(dado[i]);
+
         }
         for (int i = 7; i < 10; i++) {
 
-
             dado[i] = new JButton("Dado "+i);
-
             dado[i].addActionListener(escucha);
-
+            dado[i].setBorderPainted(false);
+            dado[i].setContentAreaFilled(false);
+            dado[i].setFocusable(false);
+            ImageIcon imgDadosSalida= new ImageIcon(getClass().getResource("/resources/"+"dadoSalida.png"));
+            dado[i].setIcon(imgDadosSalida);
             listaBotonesInactivos.add(dado[i]);
+
         }
 
         this.getContentPane().setLayout(new GridBagLayout());
@@ -122,7 +129,7 @@ dado[i].addActionListener(escucha);
 
         //panelDadosActivos.setLayout(());
 
-        panelDadosActivos.setPreferredSize(new Dimension(350, 180));
+        panelDadosActivos.setPreferredSize(new Dimension(500, 250));
         Font font = new Font("Tahoma", Font.BOLD, 18);
 
         panelDadosActivos.setBorder(BorderFactory.createTitledBorder(LineBorder.createGrayLineBorder(),"DADOS ACTIVOS", TitledBorder.LEFT,TitledBorder.TOP,font,Color.red));
@@ -132,8 +139,11 @@ dado[i].addActionListener(escucha);
         imagenDados = new ImageIcon(getClass().getResource("/resources/ejemplo.jpg"));
 
         for(int i=0;i<listaBotonesActivos.size();i++){
+            listaBotonesActivos.get(i).setEnabled(false);
+
 
             panelDadosActivos.add(listaBotonesActivos.get(i));
+
         }
 
 
@@ -144,20 +154,23 @@ dado[i].addActionListener(escucha);
 
 
         panelDadosUtilizados.setBorder(BorderFactory.createTitledBorder("DADOS UTILIZADOS "));
-        panelDadosUtilizados.setPreferredSize(new Dimension(350, 90));
+        panelDadosUtilizados.setPreferredSize(new Dimension(500, 250));
         panelDadosUtilizados.setOpaque(false);
         panelDadosUtilizados.setBorder(BorderFactory.createTitledBorder(LineBorder.createBlackLineBorder(),"DADOS UTILIZADOS", TitledBorder.LEFT,TitledBorder.TOP,font,Color.red));
 
 
         panelDadosInactivos = new JPanel();
         panelDadosInactivos.setBorder(BorderFactory.createTitledBorder("DADOS INACTIVOS "));
-        panelDadosInactivos.setPreferredSize(new Dimension(350, 150));
+        panelDadosInactivos.setPreferredSize(new Dimension(500, 200));
         panelDadosInactivos.setOpaque(false);
         panelDadosInactivos.setBorder(BorderFactory.createTitledBorder(LineBorder.createBlackLineBorder(),"DADOS INACTIVOS", TitledBorder.LEFT,TitledBorder.TOP,font,Color.red));
 
         for(int i=0;i<listaBotonesInactivos.size();i++){
-
+            listaBotonesInactivos.get(i).setEnabled(false);
             panelDadosInactivos.add(listaBotonesInactivos.get(i));
+
+
+
         }
 
 
@@ -165,7 +178,7 @@ dado[i].addActionListener(escucha);
 
         panelPuntaje= new JPanel();
         panelPuntaje.setBorder(BorderFactory.createTitledBorder("PUNTAJE "));
-        panelPuntaje.setPreferredSize(new Dimension(350,150));
+        panelPuntaje.setPreferredSize(new Dimension(500,200));
         panelPuntaje.setOpaque(false);
         panelPuntaje.setBorder(BorderFactory.createTitledBorder(LineBorder.createBlackLineBorder(),"PUNTAJE", TitledBorder.LEFT,TitledBorder.TOP,font,Color.red));
 
@@ -223,21 +236,35 @@ dado[i].addActionListener(escucha);
          */
 
 public int contadorveces=-1;
+        String nombre[];
+        int caras[];
+        JButton btn2;
+        String nombre2;
+
         @Override
         public void actionPerformed(ActionEvent e) {
-
 
             if(e.getSource()==lanzar){
 
                 modelDados tirar =new modelDados();
 
                 tirar.calcularTiroJugador();
-                 int caras[] =tirar.getCaras();
-                String nombre[]=tirar.getNombres();
+                caras=tirar.getCaras();
+                nombre=tirar.getNombres();
                 for(int i=0;i<10;i++){
                     dado[i].setText(nombre[i]);
 
+                    //Imagenes
+
+                    ImageIcon imgDados= new ImageIcon(getClass().getResource("/resources/"+nombre[i]+".jpg"));
+                    dado[i].setIcon(imgDados);
                 }
+             for (int i=0;i<listaBotonesActivos.size();i++){
+
+                  listaBotonesActivos.get(i).setEnabled(true);
+            }
+
+
 
             }else{
 
@@ -247,18 +274,58 @@ public int contadorveces=-1;
                 if(e.getSource()==salir){
                     System.exit(0);
                 }else{
+                    modelDados evuluaMovimiento = new modelDados();
 
-                if(e.getSource()!=salir && e.getSource()!=ayuda && e.getSource()!=lanzar) {
+                    //En caso de que no haya escogido un dado
+                   // &&evuluaMovimiento.getDadoEscogido()==-1
 
-                    JButton btn = (JButton) e.getSource();
-                    String nombre1 = btn.getText();
-                    int numero = btn.getComponentCount();
-                   /* modelDados evuluaMovimiento = new modelDados();
+                if(e.getSource()!=salir && e.getSource()!=ayuda && e.getSource()!=lanzar&&contadorveces==-1) {
+
+                    btn = (JButton) e.getSource();
+                    nombre1 = btn.getText();
+
+
+                    ImageIcon seleccion= new ImageIcon(getClass().getResource("/resources/corazon.jpg"));
+                    btn.setIcon(seleccion);
+
+
+                contadorveces=1;
+                } else{
+                    if(e.getSource()!=salir && e.getSource()!=ayuda && e.getSource()!=lanzar&&contadorveces==1) {
+
+                        int pregunta=JOptionPane.showConfirmDialog(null,"Esta segura de hacer esta accion?");
+                        if(pregunta==JOptionPane.YES_OPTION){
+
+                             btn2 = (JButton) e.getSource();
+                             nombre2 = btn.getText();
+
+                            for(int i=0;i<listaBotonesActivos.size();i++){
+                               if( btn2==listaBotonesActivos.get(i)){
+
+                                   evuluaMovimiento.setCara(i);
+
+                               }
+                            }
+
+                            modelDados tirar =new modelDados();
+
+                            nombre=tirar.getNombres();
+                            for(int i=0;i<10;i++){
+                                dado[i].setText(nombre[i]);
+
+                                //Imagenes
+
+                                ImageIcon imgDados= new ImageIcon(getClass().getResource("/resources/"+nombre[i]+".jpg"));
+                                dado[i].setIcon(imgDados);
+                            }
+
+                            int numero = btn.getComponentCount();
+
+
                     evuluaMovimiento.movimientos(nombre1);
-*/
+
                     listaBotonesUtilizados.add(btn);
                     listaBotonesActivos.remove(btn);
-
                     panelDadosUtilizados.removeAll();
                     panelDadosActivos.removeAll();
 
@@ -271,7 +338,13 @@ public int contadorveces=-1;
                     panelDadosUtilizados.repaint();
 
                     panelDadosActivos.repaint();
+
+                        }
+
+
+                    }
                 }
+
 
 
 

@@ -18,8 +18,9 @@ public class modelDados
     private int caraElegida;
     private int vezSelecionada;
     private String[] estadoToString = new String[2];
-    private String[] nombre=new String[10];
-    private int[] caras = new int[10];
+    public static String[] nombre=new String[10];
+    public static int[] caras = new int[10];
+    public int dadoEscogido;
     Random aleatorio= new Random();
     private int caraOpuesta;
     private Dados cartaJugador = new Dados();
@@ -33,23 +34,23 @@ public class modelDados
             this.caras[i] = this.cartaJugador.getCara();
             switch (this.caras[i]){
                 case 1:
-                this.nombre[i]="Meeple";
+                this.nombre[i]="mepple";
 
                 break;
                 case 2:
-                    this.nombre[i]="Dragon";
+                    this.nombre[i]="dragon";
                     break;
 
                 case 3:
-                    this.nombre[i]="Corazon";
+                    this.nombre[i]="corazon";
                     break;
 
                 case 4:
-                    this.nombre[i]="Cohete";
+                    this.nombre[i]="cohete";
                         break;
 
                 case 5:
-                    this.nombre[i]="SuperHeroe";
+                    this.nombre[i]="superh";
                         break;
                 case 6:
                     this.nombre[i]="42";
@@ -68,11 +69,13 @@ public class modelDados
 
     public void movimientos(String cara){
 
+
+
         switch (cara){
             case "Meeple":
 
-        JOptionPane.showMessageDialog(null,cara);
 
+                JOptionPane.showMessageDialog(null,cara+dadoEscogido);
                 break;
             case "Dragon":
                 JOptionPane.showMessageDialog(null,cara);
@@ -102,6 +105,11 @@ public class modelDados
     }
 
 
+    /*public String meeple(){
+
+        this.cartaJugador.getCara();
+       return
+    }*/
 
 
 
@@ -117,6 +125,55 @@ public class modelDados
 
 
         return this.caras;
+    }
+
+    public int[] setCara(int caraescogida){
+
+
+       this.caras[caraescogida] = this.cartaJugador.getCara();
+
+
+        switch (this.caras[caraescogida]){
+            case 1:
+                this.nombre[caraescogida]="mepple";
+
+                break;
+            case 2:
+                this.nombre[caraescogida]="dragon";
+                break;
+
+            case 3:
+                this.nombre[caraescogida]="corazon";
+                break;
+
+            case 4:
+                this.nombre[caraescogida]="cohete";
+                break;
+
+            case 5:
+                this.nombre[caraescogida]="superh";
+                break;
+            case 6:
+                this.nombre[caraescogida]="42";
+                break;
+        }
+
+        return this.caras;
+    }
+
+    public int setDadoEscogido(int dadoEscogido){
+        this.dadoEscogido=dadoEscogido;
+        return this.dadoEscogido;
+    }
+    public String setNombre(String nombre,int caraEscogida){
+
+
+
+        return this.nombre[caraEscogida]="ss";
+    }
+
+    public int getDadoEscogido(){
+        return this.dadoEscogido;
     }
 
     public String[] getNombres(){
