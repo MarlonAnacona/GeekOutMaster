@@ -1,7 +1,9 @@
 package GeekOutMaster;
 
 
+import javax.sound.midi.SysexMessage;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Random;
@@ -66,6 +68,52 @@ public class modelDados
     public void determinarJuego() {
 
     }
+
+    public void meeple(JButton btn,JButton btn2){
+
+        for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+            if (btn2 == GUI.listaBotonesActivos.get(i)) {
+
+                setCara(i);
+
+            }
+        }
+
+        modelDados tirar = new modelDados();
+        caras = tirar.getCaras();
+        nombre = tirar.getNombres();
+        for (int i = 0; i < 10; i++) {
+            GUI.dado[i].setText(nombre[i]);
+
+            //Imagenes
+
+            ImageIcon imgDados = new ImageIcon(getClass().getResource("/resources/" + nombre[i] + ".jpg"));
+            GUI.dado[i].setIcon(imgDados);
+        }
+
+
+        movimientos(GUI.nombre1);
+
+        GUI.listaBotonesUtilizados.add(btn);
+        GUI.listaBotonesActivos.remove(btn);
+        GUI.panelDadosUtilizados.removeAll();
+        GUI.panelDadosActivos.removeAll();
+
+        for (int i = 0; i < GUI.listaBotonesUtilizados.size(); i++) {
+            GUI.panelDadosUtilizados.add(GUI.listaBotonesUtilizados.get(i));
+        }
+        for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+            GUI.panelDadosActivos.add(GUI.listaBotonesActivos.get(i));
+        }
+        GUI.panelDadosUtilizados.repaint();
+
+        GUI.panelDadosActivos.repaint();
+
+        GUI.contadorveces = -1;
+
+    }
+
+
 
     public void movimientos(String cara){
 
@@ -161,15 +209,203 @@ public class modelDados
         return this.caras;
     }
 
+    public void Corazon(JButton btn){
+
+        JButton btn2=GUI.listaBotonesInactivos.getFirst();
+        System.out.println(btn);
+
+        for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+            if (btn == GUI.listaBotonesActivos.get(i)) {
+                setCara(i);
+                System.out.println(GUI.listaBotonesActivos.get(i).getText());
+            }
+        }
+
+
+        modelDados tirar = new modelDados();
+        caras = tirar.getCaras();
+        nombre = tirar.getNombres();
+        for (int i = 0; i < 10; i++) {
+            GUI.dado[i].setText(nombre[i]);
+
+            //Imagenes
+
+            ImageIcon imgDados = new ImageIcon(getClass().getResource("/resources/" + nombre[i] + ".jpg"));
+            GUI.dado[i].setIcon(imgDados);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            if(GUI.dado[i]==btn2){
+                GUI.dado[i].setText("corazon");
+        //Imagenes
+
+                ImageIcon imgDados = new ImageIcon(getClass().getResource("/resources/corazon.jpg"));
+                GUI.dado[i].setIcon(imgDados);
+            }
+
+
+        }
+
+
+        movimientos(GUI.nombre1);
+        GUI.listaBotonesUtilizados.add(btn2);
+        GUI.listaBotonesInactivos.removeFirst();
+
+        GUI.panelDadosUtilizados.removeAll();
+        GUI.panelDadosActivos.removeAll();
+        GUI.panelDadosInactivos.removeAll();
+        for (int i = 0; i < GUI.listaBotonesUtilizados.size(); i++) {
+            GUI.panelDadosUtilizados.add(GUI.listaBotonesUtilizados.get(i));
+        }
+        for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+            GUI.panelDadosActivos.add(GUI.listaBotonesActivos.get(i));
+        }
+        for (int i = 0; i < GUI.listaBotonesInactivos.size(); i++) {
+            GUI.panelDadosInactivos.add(GUI.listaBotonesInactivos.get(i));
+        }
+        GUI.panelDadosUtilizados.repaint();
+        GUI.panelDadosInactivos.repaint();
+        GUI.panelDadosActivos.repaint();
+
+        GUI.contadorveces = -1;
+
+    }
+
+
+
     public int setDadoEscogido(int dadoEscogido){
         this.dadoEscogido=dadoEscogido;
         return this.dadoEscogido;
     }
+
+
     public String setNombre(String nombre,int caraEscogida){
 
 
 
         return this.nombre[caraEscogida]="ss";
+    }
+
+    public int [] setCaraOpuesta(int caraescogida) {
+
+
+        switch (this.caras[caraescogida]) {
+
+
+            case 1:
+                this.nombre[caraescogida]="cohete";
+
+                break;
+            case 2:
+                this.nombre[caraescogida]="superh";
+                break;
+
+            case 3:
+                this.nombre[caraescogida]="42";
+                break;
+
+            case 4:
+                this.nombre[caraescogida]="mepple";
+                break;
+
+            case 5:
+                this.nombre[caraescogida]="dragon";
+                break;
+            case 6:
+                this.nombre[caraescogida]="corazon";
+                break;
+
+        }
+        return this.caras;
+
+
+}
+
+
+    public void cohete(JButton btn,JButton btn2){
+
+        for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+            if (btn2 == GUI.listaBotonesActivos.get(i)) {
+
+                setCara(i);
+
+            }
+        }
+
+        movimientos(GUI.nombre1);
+
+        GUI.listaBotonesUtilizados.add(btn);
+        GUI.listaBotonesActivos.remove(btn);
+        GUI.listaBotonesInactivos.addLast(btn2);
+        GUI.listaBotonesActivos.remove(btn2);
+        GUI.panelDadosInactivos.removeAll();
+        GUI.panelDadosUtilizados.removeAll();
+        GUI.panelDadosActivos.removeAll();
+
+        for (int i = 0; i < GUI.listaBotonesUtilizados.size(); i++) {
+            GUI.panelDadosUtilizados.add(GUI.listaBotonesUtilizados.get(i));
+        }
+        for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+            GUI.panelDadosActivos.add(GUI.listaBotonesActivos.get(i));
+        }
+        for (int i = 0; i < GUI.listaBotonesInactivos.size(); i++) {
+            GUI.panelDadosInactivos.add(GUI.listaBotonesInactivos.get(i));
+        }
+        GUI.panelDadosInactivos.repaint();
+        GUI.panelDadosUtilizados.repaint();
+
+        GUI.panelDadosActivos.repaint();
+
+        GUI.contadorveces = -1;
+
+
+    }
+
+    public void superheroe(JButton btn,JButton btn2){
+        for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+            if (btn2 == GUI.listaBotonesActivos.get(i)) {
+
+                setCaraOpuesta(i);
+
+            }
+        }
+        modelDados tirar = new modelDados();
+        caras = tirar.getCaras();
+        nombre = tirar.getNombres();
+        for (int i = 0; i < 10; i++) {
+            GUI.dado[i].setText(nombre[i]);
+
+            //Imagenes
+
+            ImageIcon imgDados = new ImageIcon(getClass().getResource("/resources/" + nombre[i] + ".jpg"));
+            GUI.dado[i].setIcon(imgDados);
+        }
+
+
+        movimientos(GUI.nombre1);
+
+        GUI.listaBotonesUtilizados.add(btn);
+        GUI.listaBotonesActivos.remove(btn);
+        GUI.panelDadosInactivos.removeAll();
+        GUI.panelDadosUtilizados.removeAll();
+        GUI.panelDadosActivos.removeAll();
+
+        for (int i = 0; i < GUI.listaBotonesUtilizados.size(); i++) {
+            GUI.panelDadosUtilizados.add(GUI.listaBotonesUtilizados.get(i));
+        }
+        for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+            GUI.panelDadosActivos.add(GUI.listaBotonesActivos.get(i));
+        }
+        for (int i = 0; i < GUI.listaBotonesInactivos.size(); i++) {
+            GUI.panelDadosInactivos.add(GUI.listaBotonesInactivos.get(i));
+        }
+        GUI.panelDadosInactivos.repaint();
+        GUI.panelDadosUtilizados.repaint();
+
+        GUI.panelDadosActivos.repaint();
+
+        GUI.contadorveces = -1;
+
     }
 
     public int getDadoEscogido(){

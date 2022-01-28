@@ -8,28 +8,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 
 public class GUI extends JFrame {
 
     private GeekOutMaster.Header headerProject;
-    private JButton dado[] = new JButton[10];
-
+    public static  JButton dado[] = new JButton[10];
+    public static int contadorveces = -1;
+    public static String  nombre[];
+    public static int caras[];
+     private JButton btn2;
+    private  String nombre2;
     private JLabel fondo;
     private int contadorDados;
-    private List<JButton> listaBotonesActivos= new ArrayList<JButton>();
-    private List<JButton> listaBotonesUtilizados= new ArrayList<JButton>();
-    private      JButton btn,btn2;
-    String nombre1,nombre2;
-    private List<JButton> listaBotonesInactivos= new ArrayList<JButton>();
-
+    public static  LinkedList<JButton> listaBotonesActivos= new LinkedList<JButton>();
+    public static  LinkedList<JButton> listaBotonesUtilizados= new LinkedList<JButton>();
+    public static       JButton btn;
+    public static  String nombre1;
+    public static  LinkedList<JButton> listaBotonesInactivos= new LinkedList<JButton>();
+    public static boolean jugadas=true;
     private JButton ayuda, salir, lanzar;
-    private JPanel panelDadosActivos, panelDadosInactivos, panelDadosUtilizados, panelPuntaje;
+    public static JPanel panelDadosActivos, panelDadosInactivos, panelDadosUtilizados, panelPuntaje;
     private ImageIcon imagenDados,fondoimagen;
     private Escucha escucha=new Escucha();
     private Icon icono;
     PanelFondo fondo1= new PanelFondo();
 
     public GUI() {
+
         contadorDados=0;
         intGUI();
         fondoimagen=new ImageIcon(getClass().getResource("/resources/fondo.jpg"));
@@ -235,128 +241,182 @@ public class GUI extends JFrame {
         These buttons start the game, giving a card with a random value between 1-12, both for the player and for the machine
          */
 
-public int contadorveces=-1;
-        String nombre[];
-        int caras[];
-        JButton btn2;
-        String nombre2;
+
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            if(e.getSource()==lanzar){
+            if (e.getSource() == lanzar) {
 
-                modelDados tirar =new modelDados();
+                modelDados tirar = new modelDados();
 
                 tirar.calcularTiroJugador();
-                caras=tirar.getCaras();
-                nombre=tirar.getNombres();
-                for(int i=0;i<10;i++){
+                caras = tirar.getCaras();
+                nombre = tirar.getNombres();
+                for (int i = 0; i < 10; i++) {
                     dado[i].setText(nombre[i]);
 
                     //Imagenes
 
-                    ImageIcon imgDados= new ImageIcon(getClass().getResource("/resources/"+nombre[i]+".jpg"));
+                    ImageIcon imgDados = new ImageIcon(getClass().getResource("/resources/" + nombre[i] + ".jpg"));
                     dado[i].setIcon(imgDados);
                 }
-             for (int i=0;i<listaBotonesActivos.size();i++){
+                for (int i = 0; i < listaBotonesActivos.size(); i++) {
 
-                  listaBotonesActivos.get(i).setEnabled(true);
+                    listaBotonesActivos.get(i).setEnabled(true);
+                }
+//lanzar.setEnabled(false);
+
+            } else {
+
             }
-
-
-
-            }else{
-
-            }  if(e.getSource()==ayuda){
-                        JOptionPane.showMessageDialog(null,"ASD");
-                    }else{
-                if(e.getSource()==salir){
+            if (e.getSource() == ayuda) {
+                JOptionPane.showMessageDialog(null, "ASD");
+            } else {
+                if (e.getSource() == salir) {
                     System.exit(0);
-                }else{
+                } else {
                     modelDados evuluaMovimiento = new modelDados();
 
                     //En caso de que no haya escogido un dado
-                   // &&evuluaMovimiento.getDadoEscogido()==-1
+                    // &&evuluaMovimiento.getDadoEscogido()==-1
 
-                if(e.getSource()!=salir && e.getSource()!=ayuda && e.getSource()!=lanzar&&contadorveces==-1) {
-
-                    btn = (JButton) e.getSource();
-                    nombre1 = btn.getText();
-
-
-                    ImageIcon seleccion= new ImageIcon(getClass().getResource("/resources/corazon.jpg"));
-                    btn.setIcon(seleccion);
+                    if (e.getSource() != salir && e.getSource() != ayuda && e.getSource() != lanzar && contadorveces == -1) {
+                        btn = (JButton) e.getSource();
+                        nombre1 = btn.getText();
 
 
-                contadorveces=1;
-                } else{
-                    if(e.getSource()!=salir && e.getSource()!=ayuda && e.getSource()!=lanzar&&contadorveces==1) {
+                        ImageIcon seleccion = new ImageIcon(getClass().getResource("/resources/corazon.jpg"));
+                        btn.setIcon(seleccion);
+                        //En caso de escoger la opcion corazon
+                        if(nombre1.equals("corazon")){
+                            int pregunta = JOptionPane.showConfirmDialog(null, "Esta segura de hacer esta accion(Corazon)?");
+                            if (pregunta == JOptionPane.YES_OPTION) {
+                                int escogido;
+                                for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+                                    if (btn == GUI.listaBotonesActivos.get(i)) {
+                                        escogido = i;
+                                    }
+                                }
+                                modelDados miDado = new modelDados();
+                                miDado.Corazon(btn);
+contadorveces=-1;
+                                /*for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+                                    if (listaBotonesActivos.get(i).getText()=="mepple"||listaBotonesActivos.get(i).getText()=="corazon"||listaBotonesActivos.get(i).getText()=="superh") {
+                                        jugadas=false;
 
-                        int pregunta=JOptionPane.showConfirmDialog(null,"Esta segura de hacer esta accion?");
-                        if(pregunta==JOptionPane.YES_OPTION){
+                                    }else{
 
-                             btn2 = (JButton) e.getSource();
-                             nombre2 = btn.getText();
+                                    }
+                                }
 
-                            for(int i=0;i<listaBotonesActivos.size();i++){
-                               if( btn2==listaBotonesActivos.get(i)){
+                                if(jugadas==false){
+                                    System.out.println("No hay mas jugadas posibles");
+                                }*/
 
-                                   evuluaMovimiento.setCara(i);
-
-                               }
+                            }else{
+                                contadorveces = -1;
                             }
+                        }
+                        else{
+                            contadorveces = 1;
+                        }
 
-                            modelDados tirar =new modelDados();
+                    }else{
 
-                            nombre=tirar.getNombres();
-                            for(int i=0;i<10;i++){
-                                dado[i].setText(nombre[i]);
 
-                                //Imagenes
+                        if (e.getSource() != salir && e.getSource() != ayuda && e.getSource() != lanzar && contadorveces == 1) {
 
-                                ImageIcon imgDados= new ImageIcon(getClass().getResource("/resources/"+nombre[i]+".jpg"));
-                                dado[i].setIcon(imgDados);
+
+                            int pregunta = JOptionPane.showConfirmDialog(null, "Esta segura de hacer esta accion?");
+                            if (pregunta == JOptionPane.YES_OPTION) {
+
+                                btn2 = (JButton) e.getSource();
+                                nombre2 = btn.getText();
+                                switch (nombre1) {
+                                    case "mepple":
+
+                                        evuluaMovimiento.meeple(btn,btn2);
+                                        /*for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+                                            if (listaBotonesActivos.get(i).getText()=="mepple"||listaBotonesActivos.get(i).getText()=="corazon"||listaBotonesActivos.get(i).getText()=="superh") {
+                                                jugadas=false;
+
+                                            }else{
+
+                                            }
+                                        }
+
+                                        if(jugadas==false){
+                                            System.out.println("No hay mas jugadas posibles");
+                                        }*/
+                                        contadorveces=-1;
+                                        break;
+                                    case "Dragon":
+
+
+                                        break;
+
+                                    case "Corazon":
+
+
+
+
+
+                                        break;
+
+                                    case "cohete":
+                                    evuluaMovimiento.cohete(btn,btn2);
+                                      /*  for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+                                            if (listaBotonesActivos.get(i).getText()=="mepple"||listaBotonesActivos.get(i).getText()=="corazon"||listaBotonesActivos.get(i).getText()=="superh") {
+                                                jugadas=false;
+
+                                            }else{
+
+                                            }
+                                        }
+
+                                        if(jugadas==false){
+                                            System.out.println("No hay mas jugadas posibles");
+                                        }*/
+                                        contadorveces=-1;
+                                        break;
+
+                                    case "superh":
+                                        evuluaMovimiento.superheroe(btn,btn2);
+                                      /*  for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+                                            if (listaBotonesActivos.get(i).getText()=="mepple"||listaBotonesActivos.get(i).getText()=="corazon"||listaBotonesActivos.get(i).getText()=="superh") {
+                                                jugadas=false;
+
+                                            }else{
+
+                                            }
+                                        }
+
+                                        if(jugadas==false){
+                                            System.out.println("No hay mas jugadas posibles");
+                                        }*/
+                                        contadorveces=-1;
+                                        break;
+                                    case "42":
+
+                                        break;
+                                }
+
+                            }else {
+                            contadorveces=-1;
                             }
-
-                            int numero = btn.getComponentCount();
-
-
-                    evuluaMovimiento.movimientos(nombre1);
-
-                    listaBotonesUtilizados.add(btn);
-                    listaBotonesActivos.remove(btn);
-                    panelDadosUtilizados.removeAll();
-                    panelDadosActivos.removeAll();
-
-                    for (int i = 0; i < listaBotonesUtilizados.size(); i++) {
-                        panelDadosUtilizados.add(listaBotonesUtilizados.get(i));
-                    }
-                    for (int i = 0; i < listaBotonesActivos.size(); i++) {
-                        panelDadosActivos.add(listaBotonesActivos.get(i));
-                    }
-                    panelDadosUtilizados.repaint();
-
-                    panelDadosActivos.repaint();
-
                         }
 
 
                     }
+        }
+                }
+            }
                 }
 
 
 
 
-}}
-
-
-
-
-
-
-        }
-    }
 
 
 
