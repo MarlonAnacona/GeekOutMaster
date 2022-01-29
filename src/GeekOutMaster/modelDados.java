@@ -22,7 +22,9 @@ public class modelDados
     private String[] estadoToString = new String[2];
     public static String[] nombre=new String[10];
     public static int[] caras = new int[10];
+    public static int contadorGloblar=0;
     public int dadoEscogido;
+    public static JButton btn21;
     Random aleatorio= new Random();
     private int caraOpuesta;
     private Dados cartaJugador = new Dados();
@@ -110,7 +112,7 @@ public class modelDados
         GUI.panelDadosActivos.repaint();
 
         GUI.contadorveces = -1;
-
+        actualizarpaneles();
     }
 
 
@@ -153,21 +155,6 @@ public class modelDados
     }
 
 
-    /*public String meeple(){
-
-        this.cartaJugador.getCara();
-       return
-    }*/
-
-
-
-    //this method set text with a winner game
-    /*public String[] getEstadoToString() {
-
-        }
-
-
-    }*/
 
     public int[] getCaras() {
 
@@ -209,18 +196,15 @@ public class modelDados
         return this.caras;
     }
 
-    public void Corazon(JButton btn){
-
-        JButton btn2=GUI.listaBotonesInactivos.getFirst();
-        System.out.println(btn);
+    public void Corazon(JButton corazonApasar,JButton InactivoApasar){
 
         for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
-            if (btn == GUI.listaBotonesActivos.get(i)) {
+            if (InactivoApasar == GUI.listaBotonesActivos.get(i)) {
+
                 setCara(i);
-                System.out.println(GUI.listaBotonesActivos.get(i).getText());
+
             }
         }
-
 
         modelDados tirar = new modelDados();
         caras = tirar.getCaras();
@@ -234,26 +218,16 @@ public class modelDados
             GUI.dado[i].setIcon(imgDados);
         }
 
-        for (int i = 0; i < 10; i++) {
-            if(GUI.dado[i]==btn2){
-                GUI.dado[i].setText("corazon");
-        //Imagenes
 
-                ImageIcon imgDados = new ImageIcon(getClass().getResource("/resources/corazon.jpg"));
-                GUI.dado[i].setIcon(imgDados);
-            }
+        GUI.listaBotonesUtilizados.add(corazonApasar);
+        GUI.listaBotonesActivos.add(InactivoApasar);
+        GUI.listaBotonesActivos.remove(corazonApasar);
+        GUI.listaBotonesInactivos.remove(InactivoApasar);
 
-
-        }
-
-
-        movimientos(GUI.nombre1);
-        GUI.listaBotonesUtilizados.add(btn2);
-        GUI.listaBotonesInactivos.removeFirst();
-
+        GUI.panelDadosInactivos.removeAll();
         GUI.panelDadosUtilizados.removeAll();
         GUI.panelDadosActivos.removeAll();
-        GUI.panelDadosInactivos.removeAll();
+
         for (int i = 0; i < GUI.listaBotonesUtilizados.size(); i++) {
             GUI.panelDadosUtilizados.add(GUI.listaBotonesUtilizados.get(i));
         }
@@ -264,14 +238,39 @@ public class modelDados
             GUI.panelDadosInactivos.add(GUI.listaBotonesInactivos.get(i));
         }
         GUI.panelDadosUtilizados.repaint();
-        GUI.panelDadosInactivos.repaint();
+
         GUI.panelDadosActivos.repaint();
-
+        GUI.panelDadosInactivos.repaint();
         GUI.contadorveces = -1;
-
+        actualizarpaneles();
     }
 
+    public void actualizarpaneles(){
 
+        caras = getCaras();
+        nombre = getNombres();
+        for (int i = 0; i < 10; i++) {
+            GUI.dado[i].setText(nombre[i]);
+
+            //Imagenes
+
+            ImageIcon imgDados = new ImageIcon(getClass().getResource("/resources/" + nombre[i] + ".jpg"));
+            GUI.dado[i].setIcon(imgDados);
+        }
+        for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
+
+            GUI.listaBotonesActivos.get(i).setEnabled(true);
+        }
+        for (int i = 0; i < GUI.listaBotonesInactivos.size(); i++) {
+
+            GUI.listaBotonesInactivos.get(i).setEnabled(false);
+        }
+        for (int i = 0; i < GUI.listaBotonesUtilizados.size(); i++) {
+
+            GUI.listaBotonesUtilizados.get(i).setEnabled(false);
+        }
+
+    }
 
     public int setDadoEscogido(int dadoEscogido){
         this.dadoEscogido=dadoEscogido;
@@ -280,9 +279,6 @@ public class modelDados
 
 
     public String setNombre(String nombre,int caraEscogida){
-
-
-
         return this.nombre[caraEscogida]="ss";
     }
 
@@ -336,7 +332,7 @@ public class modelDados
 
         GUI.listaBotonesUtilizados.add(btn);
         GUI.listaBotonesActivos.remove(btn);
-        GUI.listaBotonesInactivos.addLast(btn2);
+        GUI.listaBotonesInactivos.add(btn2);
         GUI.listaBotonesActivos.remove(btn2);
         GUI.panelDadosInactivos.removeAll();
         GUI.panelDadosUtilizados.removeAll();
@@ -357,7 +353,7 @@ public class modelDados
         GUI.panelDadosActivos.repaint();
 
         GUI.contadorveces = -1;
-
+        actualizarpaneles();
 
     }
 
@@ -405,7 +401,7 @@ public class modelDados
         GUI.panelDadosActivos.repaint();
 
         GUI.contadorveces = -1;
-
+        actualizarpaneles();
     }
 
     public int getDadoEscogido(){

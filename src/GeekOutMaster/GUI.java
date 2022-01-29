@@ -17,20 +17,21 @@ public class GUI extends JFrame {
     public static int contadorveces = -1;
     public static String  nombre[];
     public static int caras[];
-     private JButton btn2;
+    public static JButton btn2,btn1Corazon;
     private  String nombre2;
     private JLabel fondo;
     private int contadorDados;
-    public static  LinkedList<JButton> listaBotonesActivos= new LinkedList<JButton>();
-    public static  LinkedList<JButton> listaBotonesUtilizados= new LinkedList<JButton>();
+    public static  ArrayList<JButton> listaBotonesActivos= new ArrayList<JButton>();
+    public static  ArrayList<JButton> listaBotonesUtilizados= new ArrayList<JButton>();
     public static       JButton btn;
     public static  String nombre1;
-    public static  LinkedList<JButton> listaBotonesInactivos= new LinkedList<JButton>();
+    public static  ArrayList<JButton> listaBotonesInactivos= new ArrayList<JButton>();
     public static boolean jugadas=true;
     private JButton ayuda, salir, lanzar;
     public static JPanel panelDadosActivos, panelDadosInactivos, panelDadosUtilizados, panelPuntaje;
     private ImageIcon imagenDados,fondoimagen;
     private Escucha escucha=new Escucha();
+    private boolean corazon=false;
     private Icon icono;
     PanelFondo fondo1= new PanelFondo();
 
@@ -84,7 +85,7 @@ public class GUI extends JFrame {
             dado[i].setBorderPainted(false);
             dado[i].setContentAreaFilled(false);
             dado[i].setFocusable(false);
-            ImageIcon imgDadosSalida= new ImageIcon(getClass().getResource("/resources/"+"dadoSalida.png"));
+            ImageIcon imgDadosSalida= new ImageIcon(getClass().getResource("/resources/"+"corazon.jpg"));
             dado[i].setIcon(imgDadosSalida);
             listaBotonesInactivos.add(dado[i]);
 
@@ -245,7 +246,7 @@ public class GUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            modelDados evuluaMovimiento = new modelDados();
             if (e.getSource() == lanzar) {
 
                 modelDados tirar = new modelDados();
@@ -276,11 +277,11 @@ public class GUI extends JFrame {
                 if (e.getSource() == salir) {
                     System.exit(0);
                 } else {
-                    modelDados evuluaMovimiento = new modelDados();
+
 
                     //En caso de que no haya escogido un dado
                     // &&evuluaMovimiento.getDadoEscogido()==-1
-
+                    System.out.println(contadorveces);
                     if (e.getSource() != salir && e.getSource() != ayuda && e.getSource() != lanzar && contadorveces == -1) {
                         btn = (JButton) e.getSource();
                         nombre1 = btn.getText();
@@ -289,38 +290,33 @@ public class GUI extends JFrame {
                         ImageIcon seleccion = new ImageIcon(getClass().getResource("/resources/corazon.jpg"));
                         btn.setIcon(seleccion);
                         //En caso de escoger la opcion corazon
-                        if(nombre1.equals("corazon")){
-                            int pregunta = JOptionPane.showConfirmDialog(null, "Esta segura de hacer esta accion(Corazon)?");
-                            if (pregunta == JOptionPane.YES_OPTION) {
-                                int escogido;
-                                for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
-                                    if (btn == GUI.listaBotonesActivos.get(i)) {
-                                        escogido = i;
-                                    }
+                        if(nombre1.equals("corazon")&&corazon==false){
+                            btn1Corazon = (JButton) e.getSource();
+                            nombre2 = btn1Corazon.getText();
+
+
+                                contadorveces=-1;
+                                for (int i=0;i<listaBotonesActivos.size();i++){
+                                    dado[i].setEnabled(false);
                                 }
-                                modelDados miDado = new modelDados();
-                                miDado.Corazon(btn);
-contadorveces=-1;
-                                /*for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
-                                    if (listaBotonesActivos.get(i).getText()=="mepple"||listaBotonesActivos.get(i).getText()=="corazon"||listaBotonesActivos.get(i).getText()=="superh") {
-                                        jugadas=false;
-
-                                    }else{
-
-                                    }
-                                }
-
-                                if(jugadas==false){
-                                    System.out.println("No hay mas jugadas posibles");
-                                }*/
-
+                            for (int i=7;i<10;i++){
+                                dado[i].setEnabled(true);
+                            }
+                            corazon=true;
                             }else{
+                            if(corazon==true){
+                                int pregunta = JOptionPane.showConfirmDialog(null, "Esta segura de hacer esta accion?(corazon)");
+                                if (pregunta == JOptionPane.YES_OPTION) {
+                                    evuluaMovimiento.Corazon(btn1Corazon,btn);
+
                                 contadorveces = -1;
                             }
+                            }
+                            else{
+                                contadorveces = 1;
+                            }
                         }
-                        else{
-                            contadorveces = 1;
-                        }
+
 
                     }else{
 
@@ -337,18 +333,8 @@ contadorveces=-1;
                                     case "mepple":
 
                                         evuluaMovimiento.meeple(btn,btn2);
-                                        /*for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
-                                            if (listaBotonesActivos.get(i).getText()=="mepple"||listaBotonesActivos.get(i).getText()=="corazon"||listaBotonesActivos.get(i).getText()=="superh") {
-                                                jugadas=false;
 
-                                            }else{
 
-                                            }
-                                        }
-
-                                        if(jugadas==false){
-                                            System.out.println("No hay mas jugadas posibles");
-                                        }*/
                                         contadorveces=-1;
                                         break;
                                     case "Dragon":
@@ -366,18 +352,8 @@ contadorveces=-1;
 
                                     case "cohete":
                                     evuluaMovimiento.cohete(btn,btn2);
-                                      /*  for (int i = 0; i < GUI.listaBotonesActivos.size(); i++) {
-                                            if (listaBotonesActivos.get(i).getText()=="mepple"||listaBotonesActivos.get(i).getText()=="corazon"||listaBotonesActivos.get(i).getText()=="superh") {
-                                                jugadas=false;
 
-                                            }else{
 
-                                            }
-                                        }
-
-                                        if(jugadas==false){
-                                            System.out.println("No hay mas jugadas posibles");
-                                        }*/
                                         contadorveces=-1;
                                         break;
 
@@ -395,6 +371,8 @@ contadorveces=-1;
                                         if(jugadas==false){
                                             System.out.println("No hay mas jugadas posibles");
                                         }*/
+
+
                                         contadorveces=-1;
                                         break;
                                     case "42":
